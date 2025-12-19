@@ -4,11 +4,15 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search } from "lucide-react"
 
-export default async function Home({ searchParams }: { searchParams: { q?: string } }) {
-  const params = await searchParams; // In Next.js 15, searchParams is a promise
+export default async function Home({ 
+  searchParams 
+}: { 
+  searchParams: Promise<{ q?: string }>  // ← Ubah tipe jadi Promise
+}) {
+  const params = await searchParams
   const query = params.q
   const products = await getProducts(query)
-
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
@@ -20,7 +24,7 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
           </Button>
         </form>
       </div>
-
+      
       {products.length === 0 ? (
         <div className="text-center py-20 text-muted-foreground">
           No products found.
