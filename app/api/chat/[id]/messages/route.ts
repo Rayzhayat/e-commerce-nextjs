@@ -3,11 +3,11 @@ import prisma from '@/lib/prisma'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }  // ← Ubah tipe jadi Promise
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params
+  
   try {
-    const { id } = await params  // ← Await params dulu
-    
     const messages = await prisma.message.findMany({
       where: { chatRoomId: id },
       orderBy: { createdAt: 'desc' },
