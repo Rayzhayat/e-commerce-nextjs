@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache"
 import Stripe from "stripe"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-    apiVersion: '2024-12-18.acacia'
+    apiVersion: '2025-12-15.clover'  // ← Ubah ini aja
 })
 
 const orderItemSchema = z.object({
@@ -22,7 +22,7 @@ const createOrderSchema = z.object({
 export async function createOrder(cartItems: z.infer<typeof createOrderSchema>['items']) {
     const session = await auth()
     if (!session?.user?.email) {
-        return { error: "You must be logged in to checkout" } // For now require login
+        return { error: "You must be logged in to checkout" }
     }
 
     try {
@@ -40,13 +40,13 @@ export async function createOrder(cartItems: z.infer<typeof createOrderSchema>['
             dbItems.push({
                 productId: product.id,
                 quantity: item.quantity,
-                price: product.price // Snapshot price
+                price: product.price
             })
         }
 
         // 2. Create Payment Intent
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(total * 100), // Cents
+            amount: Math.round(total * 100),
             currency: 'usd',
             metadata: { userId: (session.user as any).id }
         })
