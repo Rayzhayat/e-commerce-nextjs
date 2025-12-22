@@ -13,7 +13,7 @@ export function Navbar() {
     return (
         <nav className="border-b bg-background sticky top-0 z-50">
             <div className="container mx-auto flex items-center justify-between h-16 px-4">
-                <Link href="/" className="text-xl font-bold">Store.</Link>
+                <Link href="/" className="text-xl font-bold">Raynor Store</Link>
 
                 <div className="flex items-center gap-4">
                     <Link href="/cart">
